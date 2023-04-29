@@ -1,1 +1,17 @@
 conda/
+bin/
+
+# Ignore Python cache files and directories
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore virtual environment directories
+venv/
+env/
+*.venv
+.env
