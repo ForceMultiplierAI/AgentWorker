@@ -23,6 +23,23 @@ Monitoring and Analytics: The agent includes monitoring and analytics capabiliti
 
 Such an agent can be deployed in various scenarios, such as customer support chatbots, content generation, or information extraction systems, where the tasks need to be processed asynchronously and efficiently.
 
+## Supported models
+
+OpenAI Passthrough
+RWKV-4-Raven-1B5-V10
+RWKV-4-Raven-14B-V9
+Dolly-V2-12B
+Pythia-12B
+Vicuna-13B
+RWKV-4-Pile-7B-Instruct-Test4
+RWKV-4-7B-Alpaca-Finetuned-8Bit-Test2
+RWKV-4-7B-Alpaca-Finetuned-8Bit
+RWKV-4-7B-Alpaca-Finetuned
+RWKV-4-Pile-14B
+RWKV-4-Pile-7B
+
+hundreds more see config.json
+
 ## How to use
 
 ```
