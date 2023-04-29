@@ -1,0 +1,621 @@
+{
+    "MODELS": {
+        "OpenAI Passthrough" : {
+            "ENABLED" : true,
+            "NAME": "OpenAI Passthrough",
+            "TYPE": "ChatGPTPassThrough"
+        },
+        "RWKV-4-Raven-1B5-v10" : {
+            "ENABLED" : false,
+            "NAME": "RWKV-4-Pile-7B",
+            "TYPE": "RWKV",
+            "MODEL_CONFIG": {
+                "FILE" : "/home/shazam/RWKV-4-Raven-1B5-v10-Eng99%-Other1%-20230418-ctx4096.pth",
+                "strategy" : "cuda fp16i8"
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.9,
+                "temperature": 0.9,
+                "stop" : ["<|endoftext|>", "\n\n\n", "</", "<end"],
+                "end_adj" : -250,
+                "number" : 350
+            }
+        },
+        "RWKV-4-Raven-14B-v9" : {
+            "ENABLED" : false,
+            "NAME": "RWKV-4-Pile-7B",
+            "TYPE": "RWKV",
+            "MODEL_CONFIG": {
+                "FILE" : "/home/shazam/RWKV-4-Raven-14B-v9-Eng99-Other1-20230412-ctx8192.pth",
+                "strategy" : "cuda fp16i8"
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.9,
+                "temperature": 0.9,
+                "stop" : ["<|endoftext|>", "\n\n\n", "</", "<end"],
+                "end_adj" : -250,
+                "number" : 350
+            }
+        },
+        "dolly-v2-12b" : {
+            "ENABLED" : false,
+            "NAME": "Dolly-V2-12B",
+            "TYPE": "GPTNeoX",
+            "MODEL_CONFIG": {
+                "FILE" : "/home/shazam/dolly-v2-12b",
+                "load_in_8bit" : true,
+                "device_map" : "auto",
+                "low_cpu_mem_usage" : true
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.9,
+                "temperature": 0.9,
+                "stop" : ["###", "\n\n", "</", "<end"],
+                "number" : 350,
+                "useCache" : true
+            }
+        },
+        "Pythia-12b" : {
+            "ENABLED" : false,
+            "NAME": "Pythia-12b",
+            "TYPE": "GPTNeoX",
+            "MODEL_CONFIG": {
+                "FILE" : "/home/shazam/pythia-12b",
+                "load_in_8bit" : true,
+                "device_map" : "auto",
+                "low_cpu_mem_usage" : true
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.9,
+                "temperature": 0.9,
+                "stop" : ["###"]
+            }
+        },
+        "Vicuna-13b" : {
+            "ENABLED" : false,
+            "NAME": "Vicuna-13b",
+            "TYPE": "LLaMaCausalLM",
+            "MODEL_CONFIG": {
+                "load_in_8bits" : true,
+                "FILE" : "/home/shazam/dev/text-generation-webui/models/vicuna-13b"
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.9,
+                "temperature": 0.9,
+                "stop" : ["###", "<|endoftext|>", "\n\n\n", "</", "<end"],
+                "number" : 350
+            }
+        },
+        "RWKV-4-Pile-7B-Instruct-test4" : {
+            "ENABLED" : false,
+            "NAME": "RWKV-4-Pile-7B",
+            "TYPE": "RWKV",
+            "MODEL_CONFIG": {
+                "FILE" : "/home/shazam/RWKV-4-Pile-7B-Instruct-test4-20230326.pth",
+                "dtype" : "torch.bfloat16",
+                "runtimedtype" : "torch.float32"
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.9,
+                "temperature": 0.9,
+                "stop" : ["<|endoftext|>", "\n\n\n", "</", "<end"],
+                "end_adj" : -250,
+                "number" : 350
+            }
+        },
+        "RWKV-4-7B-alpaca-finetuned-8bit-test2" : {            
+            "ENABLED" : false,
+            "NAME": "RWKV-4-7B-alpaca-finetuned",
+            "TYPE": "RWKV",
+            "MODEL_CONFIG" : {
+                "FILE" : "/home/shazam/RWKV-4-7B-alpaca-finetuned.pth",
+                "strategy" : "cuda fp16i8"
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.92,
+                "temperature": 1,
+                "stop" : ["<|endoftext|>", "\n\n\n", "</", "<end"],
+                "end_adj" : -250,
+                "number" : 350
+            }
+        },
+        "RWKV-4-7B-alpaca-finetuned-8bit" : {            
+            "ENABLED" : false,
+            "NAME": "RWKV-4-7B-alpaca-finetuned",
+            "TYPE": "RWKV",
+            "MODEL_CONFIG" : {
+                "FILE" : "/home/shazam/RWKV-4-7B-alpaca-finetuned.pth",
+                "dtype" : "torch.bfloat16",
+                "runtimedtype" : "torch.float32"
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.92,
+                "temperature": 1,
+                "stop" : ["<|endoftext|>", "\n\n\n", "</", "<end"],
+                "end_adj" : -250,
+                "number" : 350
+            }
+        },
+        "RWKV-4-7B-alpaca-finetuned" : {            
+            "ENABLED" : false,
+            "NAME": "RWKV-4-7B-alpaca-finetuned",
+            "TYPE": "RWKV",
+            "MODEL_CONFIG" : {
+                "FILE" : "/home/delbel/RWKV-4-7B-alpaca-finetuned.pth",
+                "dtype" : "torch.bfloat16",
+                "runtimedtype" : "torch.bfloat16"
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.92,
+                "temperature": 1,
+                "stop" : ["<|endoftext|>", "\n\n\n", "</", "<end"],
+                "end_adj" : -250,
+                "number" : 350
+            }
+        },
+        "RWKV-4-Pile-14B" : {            
+            "ENABLED" : false,
+            "NAME": "RWKV-4-Pile-14B",
+            "TYPE": "RWKV",
+            "MODEL_CONFIG" : {
+                "FILE" : "/home/shazam/RWKV-4-Pile-14B-20230228-ctx4096-test663.pth",
+                "dtype" : "torch.bfloat16",
+                "runtimedtype" : "torch.bfloat16",
+                "mode" : "TORCH_QUANT", 
+                "target" : 22,
+                "maxQuantTarget" : 22
+            },
+            "TOKENIZER_CONFIG" : {
+                "ASDF": true
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.85,
+                "temperature": 1,
+                "stop" : ["<|endoftext|>"],
+                "end_adj" : -700,
+                "number" : 100
+            }
+        },
+        "RWKV-4-Pile-7B" : {
+            "ENABLED" : false,
+            "NAME": "RWKV-4-Pile-7B",
+            "TYPE": "RWKV",
+            "MODEL_CONFIG": {
+                "FILE" : "/home/shazam/RWKV-4-Pile-7B-20230109-ctx4096.pth",
+                "dtype" : "torch.bfloat16",
+                "runtimedtype" : "torch.float32"
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.9,
+                "temperature": 0.9,
+                "stop" : ["<|endoftext|>", "Best,", "Response:", "Summary:", "Experts", "Please", "http", "https", "Regards", "Hope", "Thank", "Thanks", "Disclaimer", "©", "Copyright"],
+                "end_adj" : -700,
+                "number" : 750
+            }
+        },
+        "RWKVAgent" : {
+            "ENABLED" : false,
+            "NAME": "RWKV-4-Pile-7B",
+            "TYPE": "RWKVAgent",
+            "MODEL_CONFIG": {
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 100,
+                "top_p": 0.92,
+                "temperature": 0.9,
+                "stop" : ["<endoftoken>"]
+            }
+        },
+        "RWKVChat" : {
+            "ENABLED" : false,
+            "NAME": "RWKV-4-Pile-7B",
+            "TYPE": "RWKVChat",
+            "MODEL_CONFIG": {
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 100,
+                "top_p": 0.92,
+                "temperature": 0.9,
+                "stop" : ["<endoftoken>"]
+            }
+        },
+        "RWKV-8Bit": {
+            "ENABLED" : false,
+            "NAME": "RWKV-8Bit",
+            "TYPE": "RWKV",
+            "MODEL_CONFIG": {
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 100,
+                "top_p": 0.92,
+                "temperature": 0.9,
+                "stop" : ["<ENDOFTOKEN>"]
+            }
+        },
+        "BAAI/glm-2b--broken": {
+            "ENABLED": false,
+            "NAME": "BAAI/glm-2b",
+            "TYPE": "CausalLM",
+            "MODEL_CONFIG": {
+                "trust_remote_code": true,
+                "torch_dtype": "float16",
+                "device_map": "auto",
+                "load_in_8bit": true,
+                "use_cache" : false
+            },
+            "TOKENIZER_CONFIG" : {
+                "trust_remote_code": true
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 512,
+                "top_p": 0.92,
+                "top_k": 50
+            },
+            "COMMENT" : "Errors with 'GLMConfig'> for this kind of AutoModel AutoModelForCausalLM Model type should be one of ..."
+        },
+        "text-davinci-003": {
+            "ENABLED": false,
+            "NAME": "EleutherAI/gpt-neox-20b",
+            "TYPE": "CausalLM",
+            "MODEL_CONFIG": {
+                "torch_dtype": "float16",
+                "device_map": "auto",
+                "load_in_8bit": true,
+                "use_cache" : false
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 512,
+                "top_p": 0.92,
+                "top_k": 50
+            },
+            "COMMENT" : "Loads on 3090 @22GB VRAM. Must use use_cache false or will OOM"
+        },
+        "bigscience/bloomz-7b1z": {
+            "ENABLED": false,
+            "NAME": "bigscience/bloomz-7b1",
+            "TYPE": "CausalLM",
+            "MODEL_CONFIG": {
+                "torch_dtype": "float16",
+                "device_map": "auto",
+                "load_in_8bit": true,
+                "use_cache" : false
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 512,
+                "top_p": 0.92,
+                "top_k": 50
+            },
+            "COMMENT": "We present BLOOMZ & mT0, a family of models capable of following human instructions in dozens of languages zero-shot. We finetune BLOOM & mT5 pretrained multilingual language models on our crosslingual task mixture (xP3) and find the resulting models capable of crosslingual generalization to unseen tasks & languages."
+        },
+        "GPT-JT-6B-v1": {
+            "ENABLED": false,
+            "NAME": "togethercomputer/GPT-JT-6B-v1",
+            "TYPE": "CausalLM",
+            "MODEL_CONFIG": {
+                "torch_dtype": "float16",
+                "trust_remote_code": true
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2
+            },
+            "COMMENT" : "fine-tuned GPT-J (6B) on 3.53 billion tokens, resulting in GPT-JT (6B), a model that outperforms many 100B+ on classification benchmarks. Chain-of-Thought (CoT), Public Pool of Prompts (P3) dataset, Natural-Instructions (NI) dataset."
+        },
+        "google/flan-t5-xxl": {
+            "ENABLED": false,
+            "NAME": "google/flan-t5-xxl",
+            "TYPE": "Seq2Seq",
+            "MODEL_CONFIG": {
+                "torch_dtype": "float16",
+                "trust_remote_code": true
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 512
+            }
+            
+        },
+        "google/flan-t5-base": {
+            "ENABLED": false,
+            "NAME": "google/flan-t5-base",
+            "TYPE": "Seq2Seq",
+            "MODEL_CONFIG": {
+                "torch_dtype": "float16",
+                "trust_remote_code": true
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 512
+            }
+            
+        },
+        "text-babbage-001": {
+            "ENABLED": false,
+            "NAME": "pszemraj/pegasus-x-large-book-summary",
+            "TYPE": "Seq2Seq",
+            "GENERATE_CONFIG": {
+                "max_length": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2,
+                "encoder_no_repeat_ngram_size": 3,
+                "num_beams": 4
+            }
+        }, 
+        "google/t5-v1_1-small": {
+            "ENABLED": false,
+            "NAME": "google/t5-v1_1-small",
+            "TYPE": "Seq2Seq",
+            "GENERATE_CONFIG": {
+                "max_length": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2,
+                "encoder_no_repeat_ngram_size": 3,
+                "num_beams": 4
+            }
+        },
+        "google/t5-v1_1-base": {
+            "ENABLED": false,
+            "NAME": "google/t5-v1_1-base",
+            "TYPE": "Seq2Seq",
+            "GENERATE_CONFIG": {
+                "max_length": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2,
+                "encoder_no_repeat_ngram_size": 3,
+                "num_beams": 4
+            }
+        },
+        "google/t5-v1_1-large": {
+            "ENABLED": false,
+            "NAME": "google/t5-v1_1-large",
+            "TYPE": "Seq2Seq",
+            "GENERATE_CONFIG": {
+                "max_length": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2,
+                "encoder_no_repeat_ngram_size": 3,
+                "num_beams": 4
+            }
+        },
+        "google/t5-v1_1-xlarge": {
+            "ENABLED": false,
+            "NAME": "google/t5-v1_1-xl",
+            "TYPE": "Seq2Seq",
+            "GENERATE_CONFIG": {
+                "max_length": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2,
+                "encoder_no_repeat_ngram_size": 3,
+                "num_beams": 4
+            }
+        },
+        "google/t5-v1_1-xxlarge": {
+            "ENABLED": false,
+            "NAME": "google/t5-v1_1-xxl",
+            "TYPE": "Seq2Seq",
+            "GENERATE_CONFIG": {
+                "max_length": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2,
+                "encoder_no_repeat_ngram_size": 3,
+                "num_beams": 4
+            }
+        },
+        "bigscience/mt0-xxl": {
+            "ENABLED": false,
+            "NAME": "bigscience/mt0-xxl",
+            "TYPE": "Seq2Seq",
+            "GENERATE_CONFIG": {
+                "max_length": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2,
+                "encoder_no_repeat_ngram_size": 3,
+                "num_beams": 4
+            }
+        },
+        "bigscience/mt0-small": {
+            "ENABLED": false,
+            "NAME": "bigscience/mt0-small",
+            "TYPE": "Seq2Seq",
+            "GENERATE_CONFIG": {
+                "max_length": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2,
+                "encoder_no_repeat_ngram_size": 3,
+                "num_beams": 4
+            }
+        },
+        "bigscience/mt0-base": {
+            "ENABLED": false,
+            "NAME": "bigscience/mt0-base",
+            "TYPE": "Seq2Seq",
+            "GENERATE_CONFIG": {
+                "max_length": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2,
+                "encoder_no_repeat_ngram_size": 3,
+                "num_beams": 4
+            }
+        },
+        "bigscience/mt0-large": {
+            "ENABLED": false,
+            "NAME": "bigscience/mt0-large",
+            "TYPE": "Seq2Seq",
+            "GENERATE_CONFIG": {
+                "max_length": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2,
+                "encoder_no_repeat_ngram_size": 3,
+                "num_beams": 4
+            }
+        },
+        "bigscience/mt0-xlarge": {
+            "ENABLED": false,
+            "NAME": "bigscience/mt0-xl",
+            "TYPE": "Seq2Seq",
+            "GENERATE_CONFIG": {
+                "max_length": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2,
+                "encoder_no_repeat_ngram_size": 3,
+                "num_beams": 4
+            }
+        },
+        "bigscience/mt0-xxlarge": {
+            "ENABLED": false,
+            "NAME": "bigscience/mt0-xxl",
+            "TYPE": "Seq2Seq",
+            "GENERATE_CONFIG": {
+                "max_length": 256,
+                "min_length": 8,
+                "no_repeat_ngram_size": 3,
+                "early_stopping": true,
+                "repetition_penalty": 3.5,
+                "length_penalty": 0.2,
+                "encoder_no_repeat_ngram_size": 3,
+                "num_beams": 4
+            }
+        },
+        "bigscience/bloomz-7b1": {
+            "ENABLED": false,
+            "NAME": "bigscience/bloomz-7b1",
+            "TYPE": "CausalLM",
+            "MODEL_CONFIG": {
+                "torch_dtype": "float16",
+                "device_map": "auto",
+                "load_in_8bit": true,
+                "use_cache" : false
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 512,
+                "top_p": 0.92,
+                "top_k": 50
+            }
+        },
+        "bigscience/bloomz-560m": {
+            "ENABLED": false,
+            "NAME": "bigscience/bloomz-560m",
+            "TYPE": "CausalLM",
+            "MODEL_CONFIG": {
+                "torch_dtype": "float16",
+                "device_map": "auto",
+                "load_in_8bit": true,
+                "use_cache" : false
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 512,
+                "top_p": 0.92,
+                "top_k": 50
+            }
+        },
+        "bloomb-1b1": {
+            "ENABLED": false,
+            "NAME": "bloomb-1b1",
+            "TYPE": "CausalLM",
+            "MODEL_CONFIG": {
+                "torch_dtype": "float16",
+                "device_map": "auto",
+                "load_in_8bit": true,
+                "use_cache" : false
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 512,
+                "top_p": 0.92,
+                "top_k": 50
+            }
+        },
+        "bloomb-1b7": {
+            "ENABLED": false,
+            "NAME": "bloomb-1b7",
+            "TYPE": "CausalLM",
+            "MODEL_CONFIG": {
+                "torch_dtype": "float16",
+                "device_map": "auto",
+                "load_in_8bit": true,
+                "use_cache" : false
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 512,
+                "top_p": 0.92,
+                "top_k": 50
+            }
+        },
+        "bloomb-3b": {
+            "ENABLED": false,
+            "NAME": "bloomb-3b",
+            "TYPE": "CausalLM",
+            "MODEL_CONFIG": {
+                "torch_dtype": "float16",
+                "device_map": "auto",
+                "load_in_8bit": true,
+                "use_cache" : false
+            },
+            "GENERATE_CONFIG": {
+                "max_new_tokens": 512,
+                "top_p": 0.92,
+                "top_k": 50
+            }
+        }
+    }
+}

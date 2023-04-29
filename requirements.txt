@@ -1,0 +1,40 @@
+fastapi==0.92.0
+uvicorn==0.20.0
+rwkv
+rwkvstic #==0.7.0
+starlette==0.25.0
+torch
+# numpy
+numpy
+inquirer
+scipy
+sseclient-py
+#bitsandbytes
+datasets==2.10.1
+sentencepiece
+# safetensors
+# git+https://github.com/huggingface/transformers.git
+# git+https://github.com/oobabooga/GPTQ-for-LLaMa.git@cuda
+# git+https://github.com/sterlind/GPTQ-for-LLaMa.git@lora_4bit
+# git+https://github.com/sterlind/peft.git
+
+############
+accelerate==0.18.0
+bitsandbytes==0.37.2
+# datasets
+flexgen==0.1.7
+gradio==3.24.1
+llamacpp==0.1.11
+markdown
+# numpy
+peft #==0.2.0
+requests
+# rwkv==0.7.2
+safetensors==0.3.0
+# sentencepiece
+pyyaml
+tqdm
+# git+https://github.com/huggingface/transformers@9eae4aa57650c1dbe1becd4e0979f6ad1e572ac0
+# April 10, 2023: Transformers above has a bug with StoppingCriteria fixed with https://github.com/huggingface/transformers/issues/22436
+git+https://github.com/huggingface/transformers
+
