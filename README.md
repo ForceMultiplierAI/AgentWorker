@@ -3,8 +3,9 @@
 
 Autonomous OpenAI compatible LLM Asynchronous Worker Queue Agent 
 
-ChatGPT
-An Autonomous OpenAI compatible LLM Asynchronous Worker Queue Agent is a system that manages and processes tasks related to large language models like OpenAI's GPT series asynchronously. This agent leverages the capabilities of these language models to perform various tasks while maintaining an efficient workflow.
+ForceMultiplierAI
+
+An Autonomous OpenAI compatible LLM Asynchronous Worker Queue Agent is a system that manages and processes tasks related to large language models like  OpenAI's API series, but asynchronously. This agent leverages the capabilities of these language models to perform various tasks while maintaining an efficient workflow.
 
 Key components of such an agent include:
 
