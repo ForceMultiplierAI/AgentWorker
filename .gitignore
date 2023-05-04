@@ -15,3 +15,5 @@ venv/
 env/
 *.venv
 .env
+
+.git-fmx/
