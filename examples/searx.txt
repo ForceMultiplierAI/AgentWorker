@@ -1,0 +1,81 @@
+search = SearxSearchWrapper(searx_host="https://searx.work/")
+search = SearxSearchWrapper(searx_host="https://searxng.nicfab.eu/")
+search = SearxSearchWrapper(searx_host="https://search.ononoki.org/")
+search = SearxSearchWrapper(searx_host="https://search.sapti.me/")
+search = SearxSearchWrapper(searx_host="https://search.rhscz.eu/")
+search = SearxSearchWrapper(searx_host="https://priv.au/")
+search = SearxSearchWrapper(searx_host="https://s.frlt.one/")
+search = SearxSearchWrapper(searx_host="https://search.smnz.de/")
+search = SearxSearchWrapper(searx_host="https://search.projectsegfau.lt/")
+search = SearxSearchWrapper(searx_host="https://searx.baczek.me/")
+search = SearxSearchWrapper(searx_host="https://search.rowie.at/")
+search = SearxSearchWrapper(searx_host="https://searx.namejeff.xyz/")
+search = SearxSearchWrapper(searx_host="https://xo.wtf/")
+search = SearxSearchWrapper(searx_host="https://www.gruble.de/")
+search = SearxSearchWrapper(searx_host="https://darmarit.org/searx/")
+search = SearxSearchWrapper(searx_host="https://searx.catfluori.de/")
+search = SearxSearchWrapper(searx_host="https://searx.tuxcloud.net/")
+search = SearxSearchWrapper(searx_host="https://search.us.projectsegfau.lt/")
+search = SearxSearchWrapper(searx_host="https://search.in.projectsegfau.lt/")
+search = SearxSearchWrapper(searx_host="https://search.0xgingi.com/")
+search = SearxSearchWrapper(searx_host="https://www.jabber-germany.de/searx/")
+search = SearxSearchWrapper(searx_host="https://search.fascinated.cc/")
+search = SearxSearchWrapper(searx_host="https://search.affusio.com/")
+search = SearxSearchWrapper(searx_host="https://paulgo.io/")
+search = SearxSearchWrapper(searx_host="https://searx.be/")
+search = SearxSearchWrapper(searx_host="https://northboot.xyz/")
+search = SearxSearchWrapper(searx_host="https://searx.fmac.xyz/")
+search = SearxSearchWrapper(searx_host="https://searx.tiekoetter.com/")
+search = SearxSearchWrapper(searx_host="https://opnxng.com/")
+search = SearxSearchWrapper(searx_host="https://search.modalogi.com/")
+search = SearxSearchWrapper(searx_host="https://searx.kutay.dev/")
+search = SearxSearchWrapper(searx_host="https://search.bus-hit.me/")
+search = SearxSearchWrapper(searx_host="https://myprivatesrx.us/")
+search = SearxSearchWrapper(searx_host="https://spot.murena.io/")
+search = SearxSearchWrapper(searx_host="https://search.serginho.dev/")
+search = SearxSearchWrapper(searx_host="https://baresearch.org/")
+search = SearxSearchWrapper(searx_host="https://searx.oakleycord.dev/")
+search = SearxSearchWrapper(searx_host="https://search.leptons.xyz/")
+search = SearxSearchWrapper(searx_host="https://s.zhaocloud.net/")
+search = SearxSearchWrapper(searx_host="https://searx.doofpot.nl/")
+search = SearxSearchWrapper(searx_host="https://searx.ericaftereric.top/")
+search = SearxSearchWrapper(searx_host="https://search.kiwitalk.de/")
+search = SearxSearchWrapper(searx_host="https://etsi.me/")
+search = SearxSearchWrapper(searx_host="https://notsearch.uk/")
+search = SearxSearchWrapper(searx_host="https://search.gcomm.ch/")
+search = SearxSearchWrapper(searx_host="https://search.mdosch.de/")
+search = SearxSearchWrapper(searx_host="https://searx.si/")
+search = SearxSearchWrapper(searx_host="https://search.chemicals-in-the-water.eu/")
+
+; $ mkdir my-instance
+; $ cd my-instance
+; $ export PORT=8080
+; $ docker pull searxng/searxng
+; $ docker run --rm \
+;              -d -p ${PORT}:8080 \
+;              -v "${PWD}/searxng:/etc/searxng" \
+;              -e "BASE_URL=http://localhost:$PORT/" \
+;              -e "INSTANCE_NAME=my-instance" \
+;              searxng/searxng
+; 2f998.... # container's ID
+
+
+https://python.langchain.com/en/latest/ecosystem/searx.html
+
+Self Hosted Instance:
+See this page for installation instructions.
+
+When you install SearxNG, the only active output format by default is the HTML format. You need to activate the json format to use the API. This can be done by adding the following line to the settings.yml file:
+settings.yml file:
+settings.yml file:
+
+search:
+    formats:
+        - html
+        - json
+You can make sure that the API is working by issuing a curl request to the API endpoint:
+
+curl -kLX GET --data-urlencode q='langchain' -d format=json http://localhost:8888
+
+This should return a JSON object with the results.
+

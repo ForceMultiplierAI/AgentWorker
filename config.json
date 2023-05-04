@@ -1,13 +1,67 @@
 {
     "MODELS": {
         "OpenAI Passthrough" : {
-            "ENABLED" : true,
+            "ENABLED" : false,
             "NAME": "OpenAI Passthrough",
             "TYPE": "ChatGPTPassThrough"
         },
+        "RWKV-4-RaccoonV4-7B-ctx8192" : {
+            "ENABLED" : false,
+            "NAME": "RWKV-4-RaccoonV4-7B-ctx8192",
+            "TYPE": "RWKV",
+            "MODEL_CONFIG": {
+                "FILE" : "/home/shazam/RWKV-4-RaccoonV4-7B-20230406-ctx8192-test949-50279-tuned08-230.pth",
+                "dtype" : "torch.bfloat16",
+                "runtimedtype" : "torch.float32",
+                "useGPU" : true
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.9,
+                "temperature": 0.9,
+                "stop" : ["<|endoftext|>"],
+                "end_adj" : -250,
+                "number" : 350
+            }
+        },
+        "WizardLM-7B-HF" : {
+            "ENABLED" : false,
+            "NAME": "WizardLM 7B HF",
+            "TYPE": "LLaMaCausalLM",
+            "MODEL_CONFIG" : { 
+                "FILE" : "/home/shazam/wizardLM-7B-HF"
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.9,
+                "temperature": 0.9,
+                "stop" : ["<|endoftext|>"],
+                "number" : 350
+            }
+
+        },
+        "Vicuna-13b" : {
+            "ENABLED" : false,
+            "NAME": "Vicuna-13b",
+            "TYPE": "LLaMaCausalLM",
+            "MODEL_CONFIG": {
+                "load_in_8bits" : true,
+                "FILE" : "/home/shazam/vicuna-13b"
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.9,
+                "temperature": 0.9,
+                "stop" : ["<|endoftext|>"],
+                "number" : 350
+            }
+        },
         "RWKV-4-Raven-1B5-v10" : {
             "ENABLED" : false,
-            "NAME": "RWKV-4-Pile-7B",
+            "NAME": "RWKV-4-Raven-1B5",
             "TYPE": "RWKV",
             "MODEL_CONFIG": {
                 "FILE" : "/home/shazam/RWKV-4-Raven-1B5-v10-Eng99%-Other1%-20230418-ctx4096.pth",
@@ -18,14 +72,50 @@
             "GENERATE_CONFIG": {
                 "top_p": 0.9,
                 "temperature": 0.9,
-                "stop" : ["<|endoftext|>", "\n\n\n", "</", "<end"],
+                "stop" : ["<|endoftext|>", "\n\n", "</", "<end"],
+                "end_adj" : -250,
+                "number" : 350
+            }
+        },
+        "RWKV-4-Raven-14B-v11-ctx8192" : {
+            "ENABLED" : true,
+            "NAME": "RWKV-4-Raven-14B-v9",
+            "TYPE": "RWKV",
+            "MODEL_CONFIG": {
+                "FILE" : "/home/shazam/RWKV-4-Raven-14B-v11x-Eng99%-Other1%-20230501-ctx8192.pth",
+                "strategy" : "cuda fp16i8"
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.2,
+                "temperature": 0.9,
+                "stop" : ["<|endoftext|>"],
+                "end_adj" : -250,
+                "number" : 350
+            }
+        },
+        "RWKV-4-Raven-14B-v10-ctx8192" : {
+            "ENABLED" : false,
+            "NAME": "RWKV-4-Raven-14B-v9",
+            "TYPE": "RWKV",
+            "MODEL_CONFIG": {
+                "FILE" : "/home/shazam/RWKV-4-Raven-14B-v10-Eng99%-Other1%-20230427-ctx8192.pth",
+                "strategy" : "cuda fp16i8"
+            },
+            "TOKENIZER_CONFIG" : {
+            },
+            "GENERATE_CONFIG": {
+                "top_p": 0.2,
+                "temperature": 0.9,
+                "stop" : ["<|endoftext|>"],
                 "end_adj" : -250,
                 "number" : 350
             }
         },
         "RWKV-4-Raven-14B-v9" : {
             "ENABLED" : false,
-            "NAME": "RWKV-4-Pile-7B",
+            "NAME": "RWKV-4-Raven-14B-v9",
             "TYPE": "RWKV",
             "MODEL_CONFIG": {
                 "FILE" : "/home/shazam/RWKV-4-Raven-14B-v9-Eng99-Other1-20230412-ctx8192.pth",
@@ -56,9 +146,9 @@
             "GENERATE_CONFIG": {
                 "top_p": 0.9,
                 "temperature": 0.9,
-                "stop" : ["###", "\n\n", "</", "<end"],
+                "stop" : ["<|endoftext|>"],
                 "number" : 350,
-                "useCache" : true
+                "useCache" : false
             }
         },
         "Pythia-12b" : {
@@ -77,23 +167,6 @@
                 "top_p": 0.9,
                 "temperature": 0.9,
                 "stop" : ["###"]
-            }
-        },
-        "Vicuna-13b" : {
-            "ENABLED" : false,
-            "NAME": "Vicuna-13b",
-            "TYPE": "LLaMaCausalLM",
-            "MODEL_CONFIG": {
-                "load_in_8bits" : true,
-                "FILE" : "/home/shazam/dev/text-generation-webui/models/vicuna-13b"
-            },
-            "TOKENIZER_CONFIG" : {
-            },
-            "GENERATE_CONFIG": {
-                "top_p": 0.9,
-                "temperature": 0.9,
-                "stop" : ["###", "<|endoftext|>", "\n\n\n", "</", "<end"],
-                "number" : 350
             }
         },
         "RWKV-4-Pile-7B-Instruct-test4" : {

@@ -19,9 +19,6 @@ from transformers import GPTNeoXForCausalLM, AutoTokenizer
 from .callbacks import Iteratorize, Stream
 
 
-
-
-
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Inference device: {device}")
 
@@ -98,6 +95,21 @@ The word "woman" is also used in many other contexts, such as in gender and sexu
 
 
 ####################################################
+
+
+        # https://huggingface.co/docs/transformers/main_classes/text_generation#transformers.GenerationConfig
+
+class KeywordsStoppingCriteria(StoppingCriteria):
+    def __init__(self, keywords_ids: list):
+        self.keywords = keywords_ids
+
+    def __call__(
+        self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs
+    ) -> bool:
+        if input_ids[0][-1] in self.keywords:
+            return True
+        return False
+        
 
 class GPTNeoXForCausalLMBackend(ABC):
     def __init__(self, name, **config):
@@ -186,6 +198,106 @@ class GPTNeoXForCausalLMBackend(ABC):
         
         output_str = self.tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
 
+    def chat_complete(self, messages : List, **kwargs):
+
+        # print messages
+        print(f"messages: {messages}")
+
+        # print kwargs
+        print(f"kwargs: {kwargs}")
+# messages: [{'role': 'system', 'content': 'You are a helpful assistant that translates english to pirate.', 'name': None}, {'role': 'user', 'content': 'Hi', 'name': None}, {'role': 'assistant', 'content': 'Argh me mateys', 'name': None}, {'role': 'user', 'content': 'Who is the president of Mars?', 'name': None}]
+
+        # extract "content" from "System" role messages, only one
+        system_message = [message['content'] for message in messages if message['role'] == 'system'][0]
+
+        # pop the first message, which is the system message
+        messages.pop(0)
+
+        # for the remainder of messages, for each role "user" and "assistant", extract the content, then join the content 
+        conversations_parsed = "\n\n".join([f"### User\n{message['content']}" if message['role'] == 'user' else f"### Assistant\n{message['content']}" for message in messages])
+
+        input_prompt = system_message + "\n\n" + conversations_parsed + "\n\n" + "### Assistant"
+
+        print(f"input_prompt:\n`{input_prompt}`\n")
+
+        stopStrings = ["###"] #"\n\n",
+
+        print(f"stopStrings: {stopStrings}")
+        stop_ids = [self.tokenizer.encode(w)[0] for w in stopStrings]
+        stop_criteria = KeywordsStoppingCriteria(stop_ids)
+
+        # tokenize input_prompt
+        generate_ids = self.model.generate(
+            input_ids=self.tokenizer(input_prompt, return_tensors="pt").input_ids,
+            max_new_tokens=250,
+            stopping_criteria=StoppingCriteriaList([stop_criteria]),
+            use_cache=False)
+
+        # self tokenizer
+        # with no grad
+        
+        output_str = self.tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+
+        # remove input_prompt from output_str
+        output_str = output_str[len(input_prompt):]
+
+        # if output_str ends with anything in stopStrings, remove it
+        for stopString in stopStrings:
+            if output_str.endswith(stopString):
+                print(f"output_str ends with stopString: `{stopString}`, removing it")
+                output_str = output_str[:-len(stopString)]
+                break
+
+        # remove \n\n from end of output_str
+        output_str = output_str.rstrip("\n\n")
+        # remove \n from beginning of output_str
+        output_str = output_str.lstrip("\n")
+
+        print(f"output_str:\n{output_str}\n")
+
+
+# https://platform.openai.com/docs/guides/chat/introduction
+# Chat complete response
+# {
+#  'id': 'chatcmpl-6p9XYPYSTTRi0xEviKjjilqrWU2Ve',
+#  'object': 'chat.completion',
+#  'created': 1677649420,
+#  'model': 'gpt-3.5-turbo',
+#  'usage': {'prompt_tokens': 56, 'completion_tokens': 31, 'total_tokens': 87},
+#  'choices': [
+#    {
+#     'message': {
+#       'role': 'assistant',
+#       'content': 'The 2020 World Series was played in Arlington, Texas at the Globe Life Field, which was the new home stadium for the Texas Rangers.'},
+#     'finish_reason': 'stop',
+#     'index': 0
+#    }
+#   ]
+# }
+        chat_complete_response = {
+            "id": "chatcmpl-6p9XYPYSTTRi0xEviKjjilqrWU2Ve",
+            "object": "chat.completion",
+            "created": 1677649420,
+            "model": "gpt-3.5-turbo",
+            "usage": {
+                "prompt_tokens": 56,
+                "completion_tokens": 31,
+                "total_tokens": 87
+            },
+            "choices": [
+                {
+                    "message": {
+                        "role": "assistant",
+                        "content": output_str
+                    },
+                    "finish_reason": "stop",
+                    "index": 0
+                }
+            ]
+        }
+        return chat_complete_response
+
+
     def streaming_completion(self, prompt : str, **kwargs):
         softprompt = f"{user}{interface} {prompt}\n\n{bot}{interface} "
         print(f"softprompt: `{softprompt}`")
@@ -218,18 +330,7 @@ class GPTNeoXForCausalLMBackend(ABC):
         inputs = self.tokenizer(softprompt, return_tensors="pt")
         input_ids = inputs["input_ids"].to('cuda')
 
-        # https://huggingface.co/docs/transformers/main_classes/text_generation#transformers.GenerationConfig
 
-        class KeywordsStoppingCriteria(StoppingCriteria):
-            def __init__(self, keywords_ids: list):
-                self.keywords = keywords_ids
-
-            def __call__(
-                self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs
-            ) -> bool:
-                if input_ids[0][-1] in self.keywords:
-                    return True
-                return False
 
         print(f"stopStrings: {stopStrings}")
         stop_ids = [self.tokenizer.encode(w)[0] for w in stopStrings]

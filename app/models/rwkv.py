@@ -20,6 +20,18 @@ user = "Student question"
 bot = "Assistant Professor"
 
 
+instruction_input_response = f'''Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.
+
+# Instruction:
+Write the HTML for a web site for Stevie's birthday party. Add the Title and Link for each picture into the body of the page. Write a brief description beside each picture.
+
+# Input:
+"Steve's Birthday", banner.jpg
+"Cake", cake.jpg
+"Kids", kids.jpg
+"Binky" ,clown.jpg
+
+# Responce:'''
 
 
 expert_student_qa = f'''
@@ -313,11 +325,6 @@ class RWKVBackend(ABC):
                     **self.model_config
                 )
 
-        else:
-            # error message model FILE not found
-            print(f"Error: model {self.model_config.get('FILE')} not found")
-            exit()
-
 
         print(f"Loading config {self.generate_config}")
 
@@ -337,16 +344,18 @@ class RWKVBackend(ABC):
         # self.model.loadContext(newctx=expert_student_qa)
         # output = self.model.forward(number=1, stopStrings=self.stopStrings, stopTokens=self.stopTokens, temp=self.temp, end_adj=self.end_adj, top_p_usual=self.top_p)
 
-        self.chatState = self.model.getState()
+        # self.chatState = self.model.getState()
 
-        self.model.resetState()
-        self.model.loadContext(newctx=chat_completion_init_prompt_autogpt)
-        self.AutoGPTInitState = self.model.getState()
+        # self.model.resetState()
+        # self.model.loadContext(newctx=chat_completion_init_prompt_autogpt)
+        # self.AutoGPTInitState = self.model.getState()
 
-        self.model.resetState()
-        # init_prompt
-        self.model.loadContext(newctx=expert_student_qa)
-        self.expertStudentQAInitState = self.model.getState()
+        # self.model.resetState()
+        # # init_prompt
+        # self.model.loadContext(newctx=expert_student_qa)
+        # self.expertStudentQAInitState = self.model.getState()
+        # self.model.resetState()
+        # self.model_state = None
 
     def completions(self, prompt : str, **kwargs):
         print (prompt)
@@ -397,18 +406,102 @@ class RWKVBackend(ABC):
         print(f"response: `{response}`")
         return response
 
+    
     def chat_complete(self, messages : List, **kwargs):
+        self.model.resetState()
+        print(f"messages: {messages}")
+        print(f"kwargs: {kwargs}")
+
+        temp = kwargs.pop("temperature", self.temp)       
+
+        ########################
+        system_message = messages.pop(0)['content']
+        conversations_parsed = "\n\n".join([f"### {message['role'].capitalize()}\n{message['content']}" for message in messages])
+        unique_list_of_roles = list(set([message['role'] for message in messages]))
+        try: 
+            response_role = unique_list_of_roles.pop()
+        except IndexError:
+            response_role = 'user'
+        print(f"system_message: {system_message}")
+        print(f"conversations_parsed: {conversations_parsed}")
+        print(f"Response Role: {response_role}")
+
+        ### Create prompt
+        input_prompt = "### Instruction\n" + system_message + "\n\n" + conversations_parsed + "\n\n" + "### Assistant"
+        print(f"input_prompt:\n`{input_prompt}`\n")
+
+        ###
+        stopStrings = ["<|endoftext|>", "###"]
+        ########################
+
+        output_str = self.model.forward(
+            number=350,
+            stopStrings=stopStrings,
+            # stopTokens=stopTokens,
+            temp=1.2,
+            top_p_usual=0.5,
+            # end_adj=-450,
+        )["output"]
+
+        ###### process output
+        output_str = output_str.rstrip("\n\n")
+        output_str = output_str.lstrip("\n")
+        print(f"output_str:\n{output_str}\n")
+        ######
+
+        chat_complete_response = {
+            "id": "chatcmpl-6p9XYPYSTTRi0xEviKjjilqrWU2Ve",
+            "object": "chat.completion",
+            "created": 1677649420,
+            "model": "gpt-3.5-turbo",
+            "usage": {
+                "prompt_tokens": 56,
+                "completion_tokens": 31,
+                "total_tokens": 87
+            },
+            "choices": [
+                {
+                    "message": {
+                        "role": response_role,
+                        "content": output_str
+                    },
+                    "finish_reason": "stop",
+                    "index": 0
+                }
+            ]
+        }
+        return chat_complete_response
+
+        
+
+    def chat_complete2(self, messages : List, **kwargs):
         choices = []
         prompt_tokens_count = 0
         completion_tokens_count = 0
 
         print(f"kwargs: {kwargs}") # kwargs: {'model': 'string', 'messages': [{'role': 'string', 'content': 'string', 'name': 'string'}], 'temperature': 1.0, 'top_p': 1.0, 'n': 1, 'stream': False, 'stop': ['string'], 'max_tokens': 0, 'presence_penalty': 0.0, 'frequency_penalty': 0.0, 'logit_bias': {}, 'user': 'string'}
 
-        ## Format messages into a flat text string
-        input_text = ""
-        for message in messages:
-            input_text += f"{message['role'].capitalize()}: {message['content']}\n"
+        # input_text = ""
+        # for i, message in enumerate(messages):
+        #     if message['role'] != 'System':
+        #         input_text += f"{message['role'].capitalize()}\n"
+        #     input_text += f"{message['content']}"
+        #     if i < len(messages) - 1:
+        #         input_text += "\n"
 
+        # # add "Assistant:" to the end
+        # input_text += "\nAssistant\n"
+
+        # print(f"Input Text: {input_text}")
+        
+
+        system_message = "You are a helpful assistant that translates english to pirate."
+        user_message =  "Who is the best pirate?"
+        input_text = f"""{system_message}
+# User:
+{user_message}
+# Assistant:
+"""
 
         # modify input_text to include this to give it a "head start"
         # """
@@ -416,8 +509,8 @@ class RWKVBackend(ABC):
         #     "thoughts": {
         #         "text": "
         # """
-        what_we_append = f"\n\nAssistant: {{\n\t\"thoughts\": {{\n\t\t\"text\": \""
-        input_text += what_we_append
+        # what_we_append = f"\n\nAssistant: {{\n\t\"thoughts\": {{\n\t\t\"text\": \""
+        # input_text += what_we_append
 
         # THE FILENAME
             
@@ -428,14 +521,15 @@ class RWKVBackend(ABC):
         # end_adj = kwargs.get("end_adj", self.end_adj)
         # number = kwargs.get("max_tokens", self.number)
         
-        # load state with example AutoGPTInitState
-        self.model.setState(self.AutoGPTInitState)
-        # load our input text
-        self.model.loadContext(newctx=input_text)
-        print(input_text)
-        # save our "in chat" state
-        loadedInputState = self.model.getState()
+        # # load state with example AutoGPTInitState
+        # self.model.setState(self.AutoGPTInitState)
+        # # load our input text
+        # self.model.loadContext(newctx=input_text)
+        # # save our "in chat" state
+        # loadedInputState = self.model.getState()
         # print input text
+        
+        self.model.resetState()
 
         def parse_response(text):
             pattern = r'^(?P<role>\w+): (?P<content>.*)$'
@@ -449,54 +543,61 @@ class RWKVBackend(ABC):
             else:
                 raise ValueError(f"Unable to parse response {text}")
 
-        retry_count = 5
-        response = ""
-        result = {}
-        # For debugging purposes, drop it into a file
-        # filename = f"{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}_new_input-{random.randint(0, 100000)}.txt"
-        filename = "logfile.txt"
-        with open(filename, "w") as f:
-            # Write ======== heading
-            f.write(f"`\n\n-------------------- [ request ] --------------------\n\n`")
-            f.write(input_text)
-            while retry_count > 0:
-                try:
-                    # self.model.resetState()
-                    # print input text
+        # retry_count = 1
+        # response = ""
+        # result = {}
+        # # For debugging purposes, drop it into a file
+        # # filename = f"{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}_new_input-{random.randint(0, 100000)}.txt"
+        # filename = "logfile.txt"
+        # with open(filename, "w") as f:
+        #     # Write ======== heading
+        #     f.write(f"`\n\n-------------------- [ request ] --------------------\n\n`")
+        #     f.write(input_text)
+        #     while retry_count > 0:
+        # try:
+            # self.model.resetState()
+            # print input text
 
-                    # self.model.loadContext(newctx=input_text)
-                    self.model.setState(loadedInputState)
-                    response = self.model.forward(
-                        number=350,
-                        stopStrings=['<|endoftext|>'],
-                        # stopTokens=stopTokens,
-                        temp=temp,
-                        top_p_usual=0.9,
-                        end_adj=-450,
-                    )["output"]
+            # self.model.loadContext(newctx=input_text)
+            # self.model.setState(loadedInputState)
+        response = self.model.forward(
+            number=250,
+            stopStrings=['<|endoftext|>', '\n'],
+            # stopTokens=stopTokens,
+            temp=1.2,
+            top_p_usual=0.5,
+            # end_adj=-450,
+        )["output"]
 
-                    # Get our Assistant: { ... head start back
-                    response = what_we_append + response
+        # Get our Assistant: { ... head start back
+        # response = what_we_append + response
 
-                    print(f"response: `{response}`")
-                    # append response to filename
+        print(f"response: `{response}`")
+        # append response to filename
 
-                    f.write(response)
-                    f.write(f"`\n\n------------[ retry_count { retry_count } ] --------------------\n\n`")                   
+        # f.write(response)
+        # f.write(f"`\n\n------------[ retry_count { retry_count } ] --------------------\n\n`")                   
 
-                    result = parse_response(response)
-                    print(result)
-                    break
-                except ValueError as e:
-                    retry_count -= 1
-                    if retry_count == 0:
-                        print(f"Failed after 5 attempts: {str(e)}")
+        # result = parse_response(response)
+        # print(result)
+            # break
+        # except ValueError as e:
+        #     retry_count -= 1
+        #     if retry_count == 0:
+        #         print(f"Failed after 5 attempts: {str(e)}")
 
-        print(f"response: `{result}`")
+        # print(f"response: `{result}`")
         
-        return result
+        return response
 
     def streaming_completion(self, prompt : str, **kwargs):
+
+        # expertStudentQAInitState
+
+        if self.model_state is None:
+            self.model.loadContext(newctx=expert_student_qa)
+            self.expertStudentQAInitState = self.model.getState()
+            self.model_state = "expertStudentQAInitState"
 
         softprompt = f"</end> </end> </end></end>\n\n\n{user}{interface} {prompt}\n\n{bot}{interface} "
         print(f"softprompt: `{softprompt}`")
@@ -511,7 +612,6 @@ class RWKVBackend(ABC):
         number = kwargs.get("max_tokens", self.number)
 
         # Add botname to stopStrings
-
         # stopStrings.append(interface)
         # stopStrings.append(user)
         # stopStrings.append(f"{user}{interface}")

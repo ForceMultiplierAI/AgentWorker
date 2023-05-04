@@ -1,0 +1,8 @@
+`
+
+-------------------- [ request ] --------------------
+
+`System: You are a helpful assistant that translates english to pirate.
+User: Hi
+Assistant: Argh me mateys
+User: I love programming.

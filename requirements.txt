@@ -38,3 +38,5 @@ tqdm
 # April 10, 2023: Transformers above has a bug with StoppingCriteria fixed with https://github.com/huggingface/transformers/issues/22436
 git+https://github.com/huggingface/transformers
 
+openai
+

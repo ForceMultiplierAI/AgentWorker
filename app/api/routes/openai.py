@@ -1,9 +1,10 @@
 import time
-from typing import List, Union
+from typing import List, Union, Optional, Union, Dict
 from fastapi import FastAPI, Path
 from fastapi.responses import JSONResponse
 from fastapi import HTTPException
 from pydantic import BaseModel
+from pydantic.fields import Field
 from models import manager
 import threading
 import json
@@ -19,7 +20,7 @@ router = APIRouter()
 
 from ..models.openai import OpenAIMessage
 
-
+from pydantic import BaseModel
 
 # #  GET for /v1/completions/reset
 # @router.get('/v1/completions/reset')
@@ -27,6 +28,41 @@ from ..models.openai import OpenAIMessage
 #     model = manager.get_default_model()
 #     model.reset()
 #     return JSONResponse(content={'data': 'reset'})
+class Message(BaseModel):
+    role: str
+    content: str
+    name: Optional[str] = Field(None, maxLength=64)
+
+class ChatCompletionRequest(BaseModel):
+    model: str
+    messages: List[Message]
+    temperature: Optional[float] = 1
+    top_p: Optional[float] = 1
+    n: Optional[int] = 1
+    stream: Optional[bool] = False
+    stop: Optional[List[str]] = None
+    max_tokens: Optional[int] = None
+    presence_penalty: Optional[float] = 0
+    frequency_penalty: Optional[float] = 0
+    logit_bias: Optional[dict] = None
+    user: Optional[str] = None
+
+@router.post('/v1/chat/completions')
+async def v1_chat_completions(request: ChatCompletionRequest):
+    # model = request.model
+    # messages = request.messages
+    # temperature = request.temperature
+    # Get all the fields from the request schema, into kwargs
+    kwargs = request.dict()
+    # ... other fields from the request schema
+    # Process the request using the manager and get the response
+    model = manager.get_default_model()
+    # call this def chat_complete(self, prompt : str, **kwargs):
+    response = model.chat_complete(**kwargs)
+
+    ## TODO GraphQL POST results chat_completion_audit_log chatCompletionAuditLog
+
+    return response
 
 
 @router.get('/v1/engines')
@@ -57,9 +93,6 @@ async def engine_completion(message: OpenAIMessage, model_name: str = Path("RWKV
         prompt = message.prompt
     else:
         prompt = message.prompt[0]
-
-
-
 
     # length = message.length
     temperature = message.temperature

@@ -100,7 +100,7 @@ def handle_event(event, manager):
     if event.event == "request":
         data = json.loads(event.data)
         # get from event.data
-        print(f"Event received: {event.event} event, {len(event.data)} bytes {event.data}")
+        print(f"Event received: {event.event} event, {len(event.data)} bytes {event.data}\n {data}")
 
         # get all the variables
         id, taskName, status, userId, payload, createdAt, chatId, event = (data.pop(x) for x in ["id", "taskName", "status", "userId", "payload", "createdAt", "chatId", "event"])
@@ -173,8 +173,8 @@ async def run_event_listener(manager):
             for event in client.events():
                 print("Event received:", event, event.data)
                 if event.event == 'init':
-                    for model in manager.models:
-                        model.start()
+                    # for model in manager.models:
+                    #     model.start()
                     print("\U0001F493", end='\r', flush=True)
                     continue
 
