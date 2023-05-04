@@ -315,7 +315,7 @@ class RWKVBackend(ABC):
             if strategy:
                 print(f"Using strategy {strategy}")
                 self.model = RWKV(model_file, 
-                    startegy=strategy,
+                    strategy=strategy,
                     **self.model_config
                 )
             else:
